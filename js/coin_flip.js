@@ -1,22 +1,4 @@
 
-			console.log([
-				'    __     __',
-				' __/ __\\  / __\\__   ____   _____   _____',
-				'/ __/  /\\/ /  /___\\/ ____\\/ _____\\/ _____\\',
-				'\\/_   __/ /   _   / /  __/ / __  / / __  /_   __   _____',
-				'/ /  / / /  / /  / /  / / /  ___/ /  ___/\\ _\\/ __\\/ _____\\',
-				'\\/__/  \\/__/\\/__/\\/__/  \\/_____/\\/_____/\\/__/ /  / /  ___/',
-				'                                         / __/  /  \\__  \\',
-				'                                         \\/____/\\/_____/'
-      ].join('\n'));
-      
-/////////////////////////////////////////////
-//////////////   COIN TOSS   ////////////////
-/////////////////////////////////////////////
-
-
-
-/////---Sources---/////
 
 var blob = new Blob( [document.querySelector('#physijs_worker').textContent] );
 Physijs.scripts.worker = window.URL.createObjectURL(blob);
@@ -65,7 +47,7 @@ var scene = new Physijs.Scene;
 scene.setGravity(new THREE.Vector3(0, gravity, 0));
 
 ///background
-renderer.setClearColor (0xF2F2F2, 1);
+renderer.setClearColor (0xfff, 1);
 
 ///camera
 var camera = new THREE.PerspectiveCamera(35, window.innerWidth/window.innerHeight, 1, 10000 );
@@ -96,15 +78,16 @@ lightD1.shadow.camera.left = -500;
 lightD1.shadow.camera.top = -500;
 lightD1.shadow.camera.right = 500;
 lightD1.shadow.camera.bottom = 500;
-lightD1.shadow.camera.near = 1;
+lightD1.shadow.camera.near = 0.2;
 lightD1.shadow.camera.far = 700;
 lightD1.shadow.mapSize.height = lightD1.shadow.mapSize.width = 1500;
-scene.add( lightD1 );
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-// var helper = new THREE.CameraHelper( lightD1.shadow.camera );
+scene.add( lightD1 );
+
+ var helper = new THREE.CameraHelper( lightD1.shadow.camera );
 // camera.position.set( 0, 1500, 1500 );
-// scene.add( helper );
+ scene.add( helper );
 
 
 
@@ -167,7 +150,7 @@ function Penny() {  //settings
   });
 
   //assigns each of the penny's faces to a material index
-  var faceCount = pennyGeometry.faces.length;
+  var faceCount = pennyGeometry.faces3.length;
   for ( i=0; i<faceCount; i++ ) {
     //first set of faces makes up the penny's side
     if ( i < segments*2 ) {
@@ -199,74 +182,6 @@ function Penny() {  //settings
    Math.random()*5-2.5
   ));
 
-}
-
-function Dice() {
-
-  //array to store materials
-  var materialsArray = [];
- ///frame
- var importsize = 2.0;
- var diceFrameGeometry =  new RoundEdgedBox(importsize,importsize,importsize,importsize/7.5,0.01,0.01,0.01);
- var diceFrameMesh = new THREE.MeshBasicMaterial({ visible: false, color: 0x333333 });
- materialsArray.push(Physijs.createMaterial( diceFrameMesh, fr, re/13 ));
-
-   
- //assigns each of the penny's faces to a material index
- var faceCount = diceFrameGeometry.faces.length;
- for ( i=0; i<faceCount; i++ ) {
-  diceFrameGeometry.faces[i].materialIndex = 0;
- }
-
- var obj = new Physijs.BoxMesh(diceFrameGeometry, materialsArray,3);
-
-
- var loader = new THREE.GLTFLoader().setPath( 'models/Dice/gltf/' );  
- loader.load(
-   // resource URL
-   'scene.gltf',
-   // called when the resource is loaded
-   function ( gltf ) {
-         obj.body = gltf.scene.children[0]; 
-         obj.body.rotation.set(0,0,0)
-         obj.body.position.set(0,0,0)
-         obj.body.name = 'model';
-         obj.body.componentOf = 'dice';
-         obj.body.traverse(function(child){child.castShadow = true;});
-         obj.body.castShadow = true;
-         obj.add(obj.body);
-   },
-   // called while loading is progressing
-   function ( xhr ) {
-     console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );    },
-   // called when loading has errors
-   function ( error ) {
-     console.log( 'An error happened: ' + error );
-   }
- );
- obj.scale.set(15,15,15);
-
- scene.add(obj);
- objArray.push(obj);
-
- obj.setDamping(0,.001);
- // lifts the penny and gives it some random initial spin
- obj.__dirtyPosition = true;
- obj.__dirtyRotation = true;
- obj.position.y = dropHeight;
- obj.rotation.x = Math.random()*6.28;
- obj.rotation.y = Math.random()*6.28;
- obj.rotation.z = Math.random()*6.28;
- obj.setAngularVelocity(new THREE.Vector3(
-  Math.random()*20-10, //Math.random()*50-25, // THE FLIP
-  Math.random()*20-10, 
-  Math.random()*20-10
- ));
- obj.setLinearVelocity(new THREE.Vector3(
-   Math.random()*200-100, //Math.random()*50-25, // THE FLIP
-   Math.random()*100-50, 
-   0
-  ));
 }
 
 function Legoman() {
@@ -406,25 +321,15 @@ function onWindowResize() {
 }
 
 function addPenny() {
-  new Penny;
-}
-
-function addDie() {
-  new Dice;
-}
-
-
-function addDice() {
-  new Dice;
-  new Dice;
+  new Penny();
 }
 
 function addLegoman() {
-  new Legoman;
+  new Legoman();
 }
 
 function addDuck() {
-  new Duck;
+  new Duck();
 }
 
 function clearScene() {
@@ -442,12 +347,10 @@ function clearScene() {
 window.addEventListener('resize', onWindowResize, false);
 
 $("#penny_icon").click(function(){ addPenny(); });
-$("#die_icon").click(function(){ addDie(); });
-$("#dice_icon").click(function(){ addDice(); });
 $("#lego_icon").click(function(){ addLegoman(); });
 $("#clear_icon").click(function(){ clearScene(); });
 
-$("#me_link").hover(function(){addDuck();});
+$("#me_link").hover(function(){addPenny();});
 
 
 ///---Rendering---///
@@ -460,6 +363,7 @@ function render() {
 
 	// required if controls.enableDamping or controls.autoRotate are set to true
 	controls.update();
+
   renderer.render( scene, camera);
 
    
