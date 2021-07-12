@@ -1,7 +1,5 @@
 function score(div_id) {
 
-
-
     $('<span class="plus-one"/>', {
         style: 'display:none'
       })
@@ -17,3 +15,19 @@ function score(div_id) {
       });
   
   }
+
+function reset(div_id) {
+
+    $('<span class="plus-one"/>', {
+      style: 'display:none'
+    })
+    .html('-')
+    .appendTo($(div_id))
+    .fadeIn('1000', function() {
+      var el = $(this);
+      setTimeout(function() {
+        el.remove();
+        $(div_id + 's').text(0);
+      }, 2000);
+    });
+}

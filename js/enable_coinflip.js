@@ -73,6 +73,8 @@ scene.add( lightD1 );
 
   const clearScene = () => {
       Coin.clearAll(physics, scene);
+      reset('#heads-score');
+      reset('#tails-score');
   };
 
 
@@ -93,19 +95,19 @@ scene.add( lightD1 );
     physics.update(clock.getDelta() * 1000);
     //physics.updateDebugger()
 
-    t = Coin.tally();
+    t = Coin.tally(scene);
 
     if (t[0]){ //a coin has restwes
-      var restedCoins = t[1]; //likely just one in an array 
-      for (var i in restedCoins) {
-        var state = t[2][i];  
+      const restedCoins = t[1]; //likely just one in an array 
+      restedCoins.forEach(function(coin_index){
+        var state = t[2][coin_index];  
         if (state == 1){
           score('#heads-score');
         } else if (state == -1) {
           score('#tails-score');
         }
-      }
-
+      });
+  
     }
 
     if (typeof currentCoin !== 'undefined'){

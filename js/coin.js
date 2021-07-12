@@ -1,6 +1,6 @@
 const halfPI = Math.PI/2;
 const PI2 = Math.PI*2;
-const UP = new THREE.Quaternion().setFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), Math.PI / 2 );
+const UP = new THREE.Vector3(0, 1, 0 );
 
 class Coin {
 
@@ -37,7 +37,8 @@ class Coin {
   
         const coinMaterialTop = new THREE.MeshStandardMaterial( {
           map: texture,
-          bumpMap: texture,
+          metalness:0.8,
+          roughness: 0.3
         } );
   
         Coin.materialsArray.push(coinMaterialTop);  //(materialindex = 1)
@@ -46,13 +47,12 @@ class Coin {
       //declares a new loader for the tails image, assigns it to a material, and pushes to the materials array
       var tailsLoader = new THREE.TextureLoader();
       texLoader.load( tailsImage, function ( texture ) { 
-        var coinMaterialBottom =  new THREE.MeshStandardMaterial({ 
+        var coinMaterialTails =  new THREE.MeshStandardMaterial({ 
           map: texture , 
-         // bumpMap: texture,
-          metalness:1,
-        roughness: 0.2 
+          metalness:0.8,
+          roughness: 0.3
         });
-        Coin.materialsArray.push(coinMaterialBottom);  //(materialind
+        Coin.materialsArray.push(coinMaterialTails);  //(materialind
       });  
   
 
@@ -60,6 +60,7 @@ class Coin {
       Coin.mesh.rotation.set( 0, 1.57, 0 ); // heads up on thumb
       Coin.mesh.castShadow = true;
       Coin.mesh.receiveShadow = true;
+
      
       // raise coin 
       Coin.mesh.position.y = 20;
@@ -97,16 +98,16 @@ class Coin {
 
   static clearAll(physics, scene){
     for (var coin of Coin.sceneObjects){
-        coin.traverse(function(child){ scene.remove(child);});
+  //      coin.traverse(function(child){ scene.remove(child);});
       physics.destroy(coin.body);
-      scene.remove(coin);
+   //   scene.remove(coin);
     }
     
     Coin.sceneObjects.length = 0;
     Coin.sceneObjects.history = 0;
   }
 
-  static tally(){
+  static tally(scene){
     var change = false;
     var changed = [];
     Coin.sceneObjects.forEach(function (p, i) {
@@ -117,9 +118,17 @@ class Coin {
         var v1 =  new THREE.Vector3(v.x,v.y,v.z);
 
         if (v1.length()<0.1 && av1.length()<0.1 && p.hasCollided){
-          var q = new THREE.Quaternion().setFromEuler(p.rotation);
-          var angle = Math.abs(UP.angleTo(q));
-          console.log(angle)
+         
+          const matrix = new THREE.Matrix4();
+          matrix.extractRotation( p.matrix );
+          const dir = new THREE.Vector3( 0,1, 0 );
+          matrix.multiplyVector3( dir );
+
+
+          //normalize the direction vector (convert to vector of length 1)
+          dir.normalize();
+          const angle = UP.angleTo(dir);
+
           if (angle<halfPI){
             Coin.history[i]= 1; //heads
           } else {
