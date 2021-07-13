@@ -103,11 +103,11 @@ class Coin {
     for (var coin of Coin.sceneObjects){
   //      coin.traverse(function(child){ scene.remove(child);});
       physics.destroy(coin.body);
-   //   scene.remove(coin);
+      scene.remove(coin);
     }
     
-    Coin.sceneObjects.length = 0;
-    Coin.sceneObjects.history = 0;
+    Coin.sceneObjects.length = [];
+    Coin.history = [];
   }
 
   static tally(scene){
