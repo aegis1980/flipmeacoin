@@ -141,7 +141,7 @@ scene.add( lightD1 );
 
 
 
-PhysicsLoader('/lib/ammo/kripken', () => MainScene());
+PhysicsLoader('./lib/ammo/kripken', () => MainScene());
 
 
 

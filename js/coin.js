@@ -2,6 +2,15 @@ const halfPI = Math.PI/2;
 const PI2 = Math.PI*2;
 const UP = new THREE.Vector3(0, 1, 0 );
 
+
+function randRange(min,max, pos = false){
+  if (!pos) pos = Math.random() >= 0.5;
+
+  let n = min + Math.random()*max;
+  if (!pos) n = -n;
+  return n;
+}
+
 class Coin {
 
   static materialsArray = [];
@@ -43,9 +52,8 @@ class Coin {
   
         Coin.materialsArray.push(coinMaterialTop);  //(materialindex = 1)
       });
+  
     
-      //declares a new loader for the tails image, assigns it to a material, and pushes to the materials array
-      var tailsLoader = new THREE.TextureLoader();
       texLoader.load( tailsImage, function ( texture ) { 
         var coinMaterialTails =  new THREE.MeshStandardMaterial({ 
           map: texture , 
@@ -60,25 +68,20 @@ class Coin {
       Coin.mesh.rotation.set( 0, 1.57, 0 ); // heads up on thumb
       Coin.mesh.castShadow = true;
       Coin.mesh.receiveShadow = true;
-
-     
-      // raise coin 
-      Coin.mesh.position.y = 20;
-
-      scene.add(Coin.mesh);
-
   }
 
   static spawn(physics,scene){
 
     var newCoin = Coin.mesh.clone();
+    // raise coin 
+    newCoin.position.y = randRange(15,7,true);
+
     newCoin.hasCollided = false;
-    newCoin.rotation.set(0, 0, 0 );
     physics.add.existing(newCoin);
     newCoin.body.setAngularVelocity(
-      (Math.random()*40 + 10)-25, 
-      Math.random()*30-15, //in plane rotation
-      (Math.random()*40 + 10)-25
+      randRange(5,20), 
+      randRange(5,10), //in plane rotation
+      randRange(5,20)
     );
     newCoin.body.setCollisionFlags(0); // make it kinematic
     newCoin.body.checkCollisions = true; // set checkCollisions to true
