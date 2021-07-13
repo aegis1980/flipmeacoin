@@ -13,7 +13,7 @@ const MainScene = () => {
 
   // camera
   const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000)
-  camera.position.set(10, 10, 20)
+  camera.position.set(5, 10, 10)
 
   // renderer
   const renderer = new THREE.WebGLRenderer();
@@ -21,40 +21,32 @@ const MainScene = () => {
 
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.outputEncoding = THREE.sRGBEncoding;
- //renderer.toneMapping = THREE.ReinhardToneMapping;
- // renderer.toneMappingExposure = 3;
-  document.body.appendChild(renderer.domElement)
+  document.body.appendChild(renderer.domElement);
 
   // dpr
-  const DPR = window.devicePixelRatio
+  const DPR = window.devicePixelRatio;
   renderer.setPixelRatio(Math.min(2, DPR))
 
   // orbit controls
-  const controls = new THREE.OrbitControls(camera, renderer.domElement)
-
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
   
-///lighting & shadows
-var lightA1 = new THREE.AmbientLight(0xFFFFFF,0.7);
-scene.add(lightA1);
-var lightD1 = new THREE.DirectionalLight( 0xFFFFFF);
-lightD1.position.set(5, 15,5 );
-lightD1.castShadow = true;
-lightD1.shadow.camera.near = 0.5;
-lightD1.shadow.camera.far = 500;
-lightD1.shadow.camera.left = -15;
-lightD1.shadow.camera.top = -15
-lightD1.shadow.camera.right = 15;
-lightD1.shadow.camera.bottom = 15;
-lightD1.shadow.mapSize.height = lightD1.shadow.mapSize.width = 512;
+  ///lighting & shadows
+  var lightA1 = new THREE.AmbientLight(0xFFFFFF,0.7);
+  scene.add(lightA1);
+  var lightD1 = new THREE.DirectionalLight( 0xFFFFFF);
+  lightD1.position.set(5, 15,5 );
+  lightD1.castShadow = true;
+  lightD1.shadow.camera.near = 0.5;
+  lightD1.shadow.camera.far = 500;
+  lightD1.shadow.camera.left = -15;
+  lightD1.shadow.camera.top = -15
+  lightD1.shadow.camera.right = 15;
+  lightD1.shadow.camera.bottom = 15;
+  lightD1.shadow.mapSize.height = lightD1.shadow.mapSize.width = 512;
 
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-scene.add( lightD1 );
-
- var helper = new THREE.CameraHelper( lightD1.shadow.camera );
-// camera.position.set( 0, 1500, 1500 );
- //scene.add( helper );
-
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  scene.add( lightD1 );
 
   // physics
   const physics = new AmmoPhysics(scene);
