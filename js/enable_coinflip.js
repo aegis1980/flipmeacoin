@@ -120,6 +120,7 @@ scene.add( lightD1 );
     requestAnimationFrame(animate);
   };
 
+  flipaCoin();
   requestAnimationFrame(animate);
 
 
@@ -138,13 +139,6 @@ scene.add( lightD1 );
 
 }
 
-
-
-
 PhysicsLoader('./lib/ammo/kripken', () => MainScene());
-
-
-
-console.log(`three.js version "${THREE.REVISION}"`)
 
 
