@@ -21,7 +21,7 @@ function reset(div_id) {
     $('<span class="plus-one"/>', {
       style: 'display:none'
     })
-    .html('-')
+    .html($(div_id + 's').text())
     .appendTo($(div_id))
     .fadeIn('1000', function() {
       var el = $(this);
