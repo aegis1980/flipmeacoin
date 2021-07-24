@@ -3,11 +3,12 @@ const PI2 = Math.PI*2;
 const UP = new THREE.Vector3(0, 1, 0 );
 
 
-function randRange(min,max, pos = false){
-  if (!pos) pos = Math.random() >= 0.5;
+function randRange(min,max, posonly = false){
+  let sign = posonly;
+  if (!posonly) sign = Math.random() >= 0.5;
 
   let n = min + Math.random()*max;
-  if (!pos) n = -n;
+  if (!sign) n = -n;
   return n;
 }
 
@@ -74,6 +75,8 @@ class Coin {
 
     var newCoin = Coin.mesh.clone();
     // raise coin 
+    const stateFace =  Math.random() >= 0.5 ? 1 : 0
+    newCoin.rotation.set( stateFace * Math.PI, 1.57, 0 ); // heads/tails up on thumb
     newCoin.position.y = randRange(15,7,true);
 
     newCoin.hasCollided = false;
@@ -101,12 +104,15 @@ class Coin {
 
   static clearAll(physics, scene){
     for (var coin of Coin.sceneObjects){
-  //      coin.traverse(function(child){ scene.remove(child);});
-      physics.destroy(coin.body);
+      coin.traverse(function(child){ 
+        physics.destroy(child);
+        scene.remove(child);}
+      );
+      physics.destroy(coin);
       scene.remove(coin);
     }
     
-    Coin.sceneObjects.length = [];
+    Coin.sceneObjects = [];
     Coin.history = [];
   }
 

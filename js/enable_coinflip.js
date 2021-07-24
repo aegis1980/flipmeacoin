@@ -50,7 +50,6 @@ const MainScene = () => {
 
   // physics
   const physics = new AmmoPhysics(scene);
-   physics.debug.enable(true);
 
   // extract the object factory from physics
   // the factory will make/add object without physics
