@@ -83,7 +83,7 @@ class Coin {
     physics.add.existing(newCoin);
     newCoin.body.setAngularVelocity(
       randRange(5,20), 
-      randRange(5,10), //in plane rotation
+      randRange(5,20), //in plane rotation
       randRange(5,20)
     );
     newCoin.body.setCollisionFlags(0); // make it kinematic
@@ -91,9 +91,9 @@ class Coin {
     newCoin.body.on.collision((otherObject, event) => {
       newCoin.hasCollided = true;
     });
-    newCoin.body.setFriction(0.9);
-    newCoin.body.setRestitution(0.6);
-    newCoin.body.setDamping(0.3,0.3);
+    newCoin.body.setFriction(0.5);
+    newCoin.body.setRestitution(0.9);
+    newCoin.body.setDamping(0.1,0.3);
     scene.add(newCoin);
 
     Coin.sceneObjects.push(newCoin);
