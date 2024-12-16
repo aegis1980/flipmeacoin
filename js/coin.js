@@ -82,8 +82,8 @@ class Coin {
     newCoin.hasCollided = false;
     physics.add.existing(newCoin);
     newCoin.body.setAngularVelocity(
-      randRange(5,20), 
-      randRange(5,20), //in plane rotation
+      randRange(20,40), 
+      randRange(5,15), //in plane rotation
       randRange(5,20)
     );
     newCoin.body.setCollisionFlags(0); // make it kinematic

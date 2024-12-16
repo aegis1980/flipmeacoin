@@ -59,7 +59,7 @@ const MainScene = () => {
   const platformMaterial = new THREE.MeshLambertMaterial({
     color: 0xffffff,   
   });
-  const gnd = physics.add.ground({ width: 200, height: 200 },platformMaterial);
+  const gnd = physics.add.ground({ width: 300, height: 300 },platformMaterial);
   gnd.castShadow = false;
 
   const clearScene = () => {
