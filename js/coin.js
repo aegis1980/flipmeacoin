@@ -92,7 +92,7 @@ class Coin {
       newCoin.hasCollided = true;
     });
     newCoin.body.setFriction(0.5);
-    newCoin.body.setRestitution(0.9);
+    newCoin.body.setRestitution(0.35);
     newCoin.body.setDamping(0.1,0.3);
     scene.add(newCoin);
 
