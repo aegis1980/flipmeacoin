@@ -72,6 +72,9 @@ class Experiment {
 const experiment = new Experiment();
 
 window.addEventListener('DOMContentLoaded', (event) => {
+
+    let showModal = false;
+
     const now = new Date();
     const month = now.getMonth(); // 0-indexed: May is 4
     const day = now.getDate();
@@ -81,6 +84,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const isInRange = day >= 11 && day <= 17;
 
     if (isMarch && isInRange) {
+        showModal = true;
+    }
+    
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (showModal == false && urlParams.has('piday')) {
+        showModal = true;
+        document.getElementById('piday-message').textContent = "Everyday is π day for you!";
+    } 
+
+    if (showModal) {
         const modal = document.getElementById('date-modal');
         const   overlay = document.getElementById('experiment-overlay');
         modal.style.display = 'block';

@@ -24,9 +24,9 @@
 
     <div id="date-modal">
         <div class="modal-content">
-            <h2>Happy π day (or thereabouts)!</h2>
+            <h2 id="piday-message">Happy π day (or thereabouts)!</h2>
             <p>π day (March 14th) is a celebration of the mathematical constant π.</p>
-            <p><a href="https://arxiv.org/pdf/2602.14487" target="_blank">This paper</a> explores the novel way of estimating π with coins flips. Click 'run π experiment' to see it in action!</p>
+            <p><a href="https://arxiv.org/pdf/2602.14487" target="_blank">This paper</a> explores the novel way of estimating π with coins flips. Click 'Run π experiment' to see it in action!</p>
           <div class="btn-container">
               <button id="dismiss-btn">I just want to flip coins</button>
               <button id="run-btn">Run π experiment</button>
@@ -56,10 +56,6 @@
       <div class="overlay-left">
         <div class="large-number">π <sub>est</sub>: <span id="mean-display" class="large-number">-</span></div>
       </div>
-
-        <div class="overlay-center">
-          
-        </div>
 
         <div class="overlay-right">
           <button id="stop-btn" class="stop-button">Stop π experiment</button>
