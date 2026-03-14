@@ -68,6 +68,9 @@ const MainScene = () => {
       reset('#tails-score');
   };
 
+  // Expose clearScene so it can be called externally (e.g., from piday.js)
+  MainScene.clearScene = clearScene;
+
 
   // Coin
 
@@ -75,6 +78,10 @@ const MainScene = () => {
   const flipaCoin = () => {
     currentCoin = Coin.spawn(physics,scene);
   };
+
+  // Expose flipaCoin so it can be called externally (e.g., from piday.js)
+  MainScene.flipaCoin = flipaCoin;
+
 
 
   // clock
@@ -94,8 +101,14 @@ const MainScene = () => {
         var state = t[2][coin_index];  
         if (state == 1){
           score('#heads-score');
+          if (experiment.isRunning) {
+            experiment.flipResult(1); // 1 for heads
+          }
         } else if (state == -1) {
           score('#tails-score');
+          if (experiment.isRunning) {
+            experiment.flipResult(-1); // -1 for tails
+          }
         }
       });
   
@@ -124,12 +137,13 @@ const MainScene = () => {
   
   };
 
+
+
   document.getElementById('penny_icon').addEventListener('click', flipaCoin);
   document.getElementById('clear_icon').addEventListener('click', clearScene);
+
   window.addEventListener( 'resize', onWindowResize );
 
 }
 
 PhysicsLoader('./lib/ammo/kripken', () => MainScene());
-
-

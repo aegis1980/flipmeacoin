@@ -17,10 +17,22 @@
     <script src="lib/enable3d/enable3d.ammoPhysics.0.22.0.min.js"></script>
     <script src="lib/OrbitControls.js"></script>
     <script src="js/coin.js"></script>
+    <script src="js/piday.js"></script>
   </head>
 
   <body>
 
+    <div id="date-modal">
+        <div class="modal-content">
+            <h2>Happy π day (or thereabouts)!</h2>
+            <p>π day (March 14th) is a celebration of the mathematical constant π.</p>
+            <p><a href="https://arxiv.org/pdf/2602.14487" target="_blank">This paper</a> explores the novel way of estimating π with coins flips. Click 'run π experiment' to see it in action!</p>
+          <div class="btn-container">
+              <button id="dismiss-btn">I just want to flip coins</button>
+              <button id="run-btn">Run π experiment</button>
+          </div>
+        </div>
+    </div>
 
     <div id="control_box_div">
       <div id="toss_icon_div" class= "icon_div">
@@ -38,6 +50,18 @@
       <div id="tails_div" class= "icon_div" >
         <div>Tails</div> <div id="tails-score" class="add-comment"><span id="tails-scores">0</span></div>
       </div>
+    </div>
+
+    <div id="experiment-overlay" class="bottom-overlay">
+      <div class="overlay-left"></div>
+
+        <div class="overlay-center">
+          <div class="large-number">π <sub>est</sub>: <span id="mean-display" class="large-number">-</span></div>
+        </div>
+
+        <div class="overlay-right">
+          <button id="stop-btn" class="stop-button">Stop π experiment</button>
+        </div>
     </div>
     
     <footer>

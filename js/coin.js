@@ -73,10 +73,21 @@ class Coin {
 
   static spawn(physics,scene){
 
+    if (Coin.sceneObjects.length >= 250) {
+      var oldCoin = Coin.sceneObjects.shift();
+      Coin.history.shift();
+      oldCoin.traverse(function(child){ 
+        physics.destroy(child);
+        scene.remove(child);
+      });
+      physics.destroy(oldCoin);
+      scene.remove(oldCoin);
+    }
+
     var newCoin = Coin.mesh.clone();
     // raise coin 
     const stateFace =  Math.random() >= 0.5 ? 1 : 0
-    newCoin.rotation.set( stateFace * Math.PI, 1.57, 0 ); // heads/tails up on thumb
+    newCoin.rotation.set( stateFace * Math.PI, Math.PI/2, 0 ); // heads/tails up on thumb
     newCoin.position.y = randRange(15,7,true);
 
     newCoin.hasCollided = false;
